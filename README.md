@@ -30,19 +30,19 @@ stanford-dl -course COURSE_CODE [-type {video|pdf}] [-all] [-lec lectures] [--he
 #### Examples
 - Get all transcripts (PDFs) for a course
 ```
-stanford-dl -course CS229 -type pdf -all
+stanford-dl --course CS229 --type pdf --all
 ```
 - Get only certain lectures
 ```
-stanford-dl -course CS229 -type pdf -lec 1,3,5,10
+stanford-dl --course CS229 --type pdf --lec 1,3,5,10
 ```
 - Get all videos for a course
 ```
-stanford-dl -course CS229 -type video -all
+stanford-dl --course CS229 --type video --all
 ```
 - Get only certain lectures
 ```
-stanford-dl -course CS229 -type video -lec 1,3,5,10
+stanford-dl --course CS229 --type video --lec 1,3,5,10
 ```
 
 #### Contributions
