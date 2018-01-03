@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 )
 
 const helpString = `stanford-dl
@@ -32,8 +33,8 @@ Contributions welcome :)`
 type passThrough struct {
 	io.Reader
 	index int
-	curr  int
-	total int
+	curr  int64
+	total int64
 }
 
 var bars = make([]*uiprogress.Bar, 0, 50)
@@ -42,10 +43,10 @@ var factor int64
 // Override Read method of io.Reader
 func (pt *passThrough) Read(p []byte) (int, error) {
 	n, err := pt.Reader.Read(p)
-	pt.curr += n
+	atomic.AddInt64(&pt.curr, int64(n))
 
 	if err == nil || (err == io.EOF && n > 0) {
-		bars[pt.index].Set(int((float64(pt.curr/int(factor)) / float64(pt.total)) * float64(pt.total)))
+		bars[pt.index].Set(int((float64(pt.curr/int64(factor)) / float64(pt.total)) * float64(pt.total)))
 	}
 
 	return n, err
@@ -82,7 +83,7 @@ func downloadLecture(index int, url string, fileName string, wg *sync.WaitGroup)
 	})
 
 	// Create wrapper over io.Reader
-	src := &passThrough{Reader: resp.Body, total: int(resp.ContentLength / factor), index: index}
+	src := &passThrough{Reader: resp.Body, total: int64(resp.ContentLength / factor), index: index}
 	_, err = io.Copy(fh, src)
 
 	if err != nil {
