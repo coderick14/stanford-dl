@@ -1,5 +1,6 @@
 ![Built with love](http://forthebadge.com/images/badges/built-with-love.svg)
 ![Kinda SFW](http://forthebadge.com/images/badges/kinda-sfw.svg)
+![Made with Go](https://forthebadge.com/images/badges/made-with-go.svg)
 # stanford-dl
 
 A simple multithreaded video/pdf downloader from ***Stanford Engineering Everywhere*** that *just works*.  
