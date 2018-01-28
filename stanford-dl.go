@@ -24,6 +24,7 @@ USAGE : stanford-dl -course COURSE_CODE [-type {video|pdf}] [-all] [-lec lecture
 --type 	    Specify whether to download videos or pdfs. Defaults to PDF.
 --all       Download for all lectures
 --lec       Comma separated list of lectures e.g. 1,3,5,10
+--show-urls Show the URLs only. Do not start Downloads
 --help      Display this help message and quit
 
 Found a bug? Feel free to raise an issue on https://github.com/coderick14/stanford-dl
@@ -136,6 +137,7 @@ func main() {
 		typeFlag      = flag.String("type", "pdf", "[video | pdf]. Defaults to pdf.")
 		all           = flag.Bool("all", false, "Download material for all lectures for the given course")
 		lectures      = flag.String("lec", "", "Specify comma separated list of lectures e.g 1,3,10")
+        showURLs      = flag.Bool("show-urls", false, "Show the URLs only. Do not start Downloads. ")
 		siteBaseURL   = "https://see.stanford.edu"
 		courseBaseURL = "https://see.stanford.edu/Course/"
 		videoBaseURL  = "http://html5.stanford.edu/videos/courses/see/"
@@ -226,9 +228,14 @@ func main() {
 
 		fileName := fmt.Sprintf("%s-lecture%02d.%s", *courseName, lectureList[i], extension)
 
-		// fetch lecture concurrently
-		wg.Add(1)
-		go downloadLecture(i, url, fileName, &wg)
+        if *showURLs == true {
+            // Output the URLs only
+            fmt.Println(url)
+        } else {
+            // fetch lecture concurrently
+            wg.Add(1)
+            go downloadLecture(i, url, fileName, &wg)
+        }
 	}
 
 	// Wait for all lectures to be downloaded
