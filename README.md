@@ -5,8 +5,6 @@
 
 A simple multithreaded video/pdf downloader from ***Stanford Engineering Everywhere*** that *just works*.  
 
-> NOTE : This tool is to be used strictly for educational purposes.
-
 #### Installation
 ###### Build from source
 
